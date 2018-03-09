@@ -24,6 +24,19 @@ public class BookstoreService {
         return result;
     }
 
+    public boolean removeBook(Book book) {
+        Integer quantity = books.get(book);
+
+        if (quantity == null) {
+            throw new NullPointerException(String.format("Book does not exit"));
+        } else if (quantity == 1) {
+            books.remove(book);
+        } else {
+            books.put(book, --quantity);
+        }
+        return true;
+    }
+
     private boolean isBookAlreadyInStock(Book book) {
         return books.containsKey(book);
     }

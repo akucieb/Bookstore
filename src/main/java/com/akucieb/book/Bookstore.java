@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Bookstore {
 
-    static Scanner sc = new Scanner(System.in);
+    private static Scanner sc = new Scanner(System.in);
     private static BookstoreService bookstoreService = new BookstoreService();
 
     public static void main(String[] args) {
@@ -13,13 +13,15 @@ public class Bookstore {
             System.out.println();
             System.out.println("Choose action and press enter:");
             System.out.println("[1] Add book");
+            System.out.println("[2] Remove book");
             System.out.println("[x] End program");
             System.out.println();
             usersChoice = getUserInput();
             if (usersChoice.equals("1")) {
                 addBook();
+            } else if (usersChoice.equals("2")) {
+                removeBook();
             }
-
         }
     }
 
@@ -28,6 +30,7 @@ public class Bookstore {
     }
 
     private static void addBook() {
+        System.out.println();
         System.out.println("#### ADD NEW BOOK ###");
         System.out.println();
         System.out.print("Give title: ");
@@ -51,6 +54,26 @@ public class Bookstore {
 
         System.out.println();
         System.out.println("Book added to the library");
+    }
+
+    private static void removeBook() {
+        System.out.println();
+        System.out.println("#### REMOVE BOOK ####");
+        System.out.println();
+        System.out.print("Give title: ");
+        String title = getUserInput();
+        System.out.print("Give author name: ");
+        String authorName = getUserInput();
+        System.out.print("Give author surname: ");
+        String authorSurname = getUserInput();
+        System.out.println("Give book price");
+        double price = nextDouble(sc);
+
+        bookstoreService.removeBook(new Book(price, title, new BookAuthor(authorName, authorSurname)));
+
+        System.out.println();
+
+        System.out.println("Book has been removed");
     }
 
     private static double nextDouble(Scanner sc) {
