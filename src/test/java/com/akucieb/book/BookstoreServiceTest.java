@@ -30,6 +30,30 @@ public class BookstoreServiceTest {
     }
 
     @Test
+    public void shouldAddNewBookAndIgnoreLowAndUpperLetters() {
+        //Given:
+        BookAuthor bookAuthor = new BookAuthor("Henryk", "Sienkiewicz");
+        Book book = new Book(15.05, "Ogniem i mieczem", bookAuthor);
+        BookAuthor bookAuthorLowUpCase = new BookAuthor("HeNRyk", "sIenkiEwicz");
+        Book book1 = new Book(15.05, "ognieM I MIeczem", bookAuthorLowUpCase);
+
+        //When:
+        boolean result = bookstoreService.addBook(book);
+        boolean result1 = bookstoreService.addBook(book1);
+
+        //Then:
+        Assert.assertTrue(result);
+        Assert.assertTrue(result1);
+        Assert.assertEquals(1, bookstoreService.getNumberOfBooks());
+        Assert.assertEquals(2, (int) (bookstoreService.books.get(book)));
+        Assert.assertEquals(2, (int) (bookstoreService.books.get(book1)));
+        Assert.assertTrue(bookstoreService.books.get(book).equals(bookstoreService.books.get(book1)));
+        Assert.assertTrue(book.equals(book1));
+        Assert.assertTrue(book.hashCode() == book1.hashCode());
+    }
+
+
+    @Test
     public void shouldIncreaseNumberOfBookInStockAfterAddingTheSameBook() {
         //Given:
         Book book = new Book("Wiedźmin", new BookAuthor("Andrzej", "Sapkowski"));
@@ -39,6 +63,7 @@ public class BookstoreServiceTest {
         boolean result = bookstoreService.addBook(book);
 
         //Then:
+        Assert.assertTrue(result);
         Assert.assertEquals(1, bookstoreService.getNumberOfBooks());
         int numberOfBookInStock = bookstoreService.books.get(book);
         Assert.assertEquals(5, numberOfBookInStock);
