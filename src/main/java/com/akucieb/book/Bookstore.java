@@ -17,6 +17,7 @@ public class Bookstore {
             System.out.println("[2] Remove book");
             System.out.println("[3] Search book by title");
             System.out.println("[4] Search books by author");
+            System.out.println("[5] Searching run out books");
             System.out.println("[x] End program");
             System.out.println();
             usersChoice = getUserInput();
@@ -28,6 +29,8 @@ public class Bookstore {
                 searchByTitle();
             } else if (usersChoice.equals("4")) {
                 searchByAuthor();
+            } else if (usersChoice.equals("5")) {
+                searchRunningOutBooks();
             }
         }
     }
@@ -113,6 +116,17 @@ public class Bookstore {
         Map<Book, Integer> searchingResult = bookstoreService.searchByAuthor(bookAuthor);
 
         System.out.println("There are " + searchingResult.size() + " book in store with author: " + bookAuthor);
+
+        searchingResult.forEach((book, value) -> System.out.println(book + " number in stock: " + value));
+    }
+
+    private static void searchRunningOutBooks() {
+
+        System.out.println();
+
+        Map<Book, Integer> searchingResult = bookstoreService.searchingRunningOutBooks();
+
+        System.out.println("There are " + searchingResult.size() + " book in store with quantity less than 3: ");
 
         searchingResult.forEach((book, value) -> System.out.println(book + " number in stock: " + value));
     }

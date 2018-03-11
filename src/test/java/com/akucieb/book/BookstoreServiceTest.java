@@ -230,4 +230,32 @@ public class BookstoreServiceTest {
         //Then:
         Assert.assertEquals(0, result.size());
     }
+
+    @Test
+    public void shouldReturnBooksWithQuantityLessThan3() {
+        //Before:
+        Book book1 = new Book("Wiedźmin", new BookAuthor("Andrzej", "Sapkowski"));
+        bookstoreService.books.put(book1, 2);
+        Book book2 = new Book(15.05, "Ogniem i mieczem", new BookAuthor("Henryk", "Sienkiewicz"));
+        bookstoreService.books.put(book2, 3);
+        Book book3 = new Book(15, "W pustyni i w puszczy", new BookAuthor("Henryk", "Sienkiewicz"));
+        bookstoreService.books.put(book3, 1);
+        Book book4 = new Book(18, "Ogniem i mieczem", new BookAuthor("Henryk", "Sienkiewicz"));
+        bookstoreService.books.put(book4, 8);
+        Book book5 = new Book(8, "Lalka", new BookAuthor("Boleslaw", "Prus"));
+        bookstoreService.books.put(book5, 0);
+
+        //Then:
+        Map result = bookstoreService.searchingRunningOutBooks();
+
+        //Return:
+        Map<Book, Integer> expectedResukt = new HashMap<>();
+        expectedResukt.put(book1, 2);
+        expectedResukt.put(book2, 3);
+        expectedResukt.put(book3, 1);
+        expectedResukt.put(book5, 0);
+
+        Assert.assertEquals(expectedResukt, result);
+        Assert.assertEquals(expectedResukt.size(), result.size());
+    }
 }
