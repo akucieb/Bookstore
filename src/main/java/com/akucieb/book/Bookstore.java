@@ -1,5 +1,6 @@
 package com.akucieb.book;
 
+import java.util.Map;
 import java.util.Scanner;
 
 public class Bookstore {
@@ -14,6 +15,7 @@ public class Bookstore {
             System.out.println("Choose action and press enter:");
             System.out.println("[1] Add book");
             System.out.println("[2] Remove book");
+            System.out.println("[3] Search book by title");
             System.out.println("[x] End program");
             System.out.println();
             usersChoice = getUserInput();
@@ -21,6 +23,8 @@ public class Bookstore {
                 addBook();
             } else if (usersChoice.equals("2")) {
                 removeBook();
+            } else if (usersChoice.equals("3")) {
+                searchByTitle();
             }
         }
     }
@@ -74,6 +78,22 @@ public class Bookstore {
         System.out.println();
 
         System.out.println("Book has been removed");
+    }
+
+
+    private static void searchByTitle() {
+        System.out.println();
+        System.out.println("#### SEARCH BOOK BY TITLE ####");
+        System.out.println();
+        System.out.print("Give title of the book you want to find: ");
+        String title = getUserInput();
+        System.out.println();
+
+        Map<Book, Integer> searchingResult = bookstoreService.searchByTitle(title);
+
+        System.out.println("There are " + searchingResult.size() + " book in store with title: " + title);
+
+        searchingResult.forEach((book, value) -> System.out.println(book + " number in stock: " + value));
     }
 
     private static double nextDouble(Scanner sc) {

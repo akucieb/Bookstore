@@ -2,6 +2,7 @@ package com.akucieb.book;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BookstoreService {
     Map<Book, Integer> books;
@@ -35,6 +36,11 @@ public class BookstoreService {
             books.put(book, --quantity);
         }
         return true;
+    }
+
+    public Map<Book, Integer> searchByTitle(String title) {
+
+        return books.entrySet().stream().filter(map -> map.getKey().getTitle().equals(title)).collect(Collectors.toMap(b -> b.getKey(), b -> b.getValue()));
     }
 
     private boolean isBookAlreadyInStock(Book book) {

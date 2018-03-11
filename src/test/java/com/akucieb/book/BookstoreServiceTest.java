@@ -4,6 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BookstoreServiceTest {
     private BookstoreService bookstoreService;
 
@@ -90,5 +93,71 @@ public class BookstoreServiceTest {
         Book book = new Book("Wiedźmin", new BookAuthor("Andrzej", "Sapkowski"));
         //When:
         bookstoreService.removeBook(book);
+    }
+
+    @Test
+    public void shouldReturnMapFiltratedByTitle() {
+        //Given:
+        Book book1 = new Book("Wiedźmin", new BookAuthor("Andrzej", "Sapkowski"));
+        bookstoreService.books.put(book1, 2);
+        Book book2 = new Book(15.05, "Ogniem i mieczem", new BookAuthor("Henryk", "Sienkiewicz"));
+        bookstoreService.books.put(book2, 3);
+        Book book3 = new Book(15, "W pustyni i w puszczy", new BookAuthor("Henryk", "Sienkiewicz"));
+        bookstoreService.books.put(book3, 1);
+        Book book4 = new Book(18, "Ogniem i mieczem", new BookAuthor("Henryk", "Sienkiewicz"));
+        bookstoreService.books.put(book4, 8);
+
+        //When:
+        Map result = bookstoreService.searchByTitle("Ogniem i mieczem");
+
+        //Then:
+        Map<Book, Integer> expectedMap = new HashMap<>();
+        expectedMap.put(book2, 3);
+        expectedMap.put(book4, 8);
+        Assert.assertEquals(expectedMap.size(), result.size());
+        Assert.assertTrue(expectedMap.equals(result));
+
+    }
+
+    @Test
+    public void shouldReturnEmptyMapWhenTitleDoesntExistInStock() {
+        //Given:
+        Book book1 = new Book("Wiedźmin", new BookAuthor("Andrzej", "Sapkowski"));
+        bookstoreService.books.put(book1, 2);
+        Book book2 = new Book(15.05, "Ogniem i mieczem", new BookAuthor("Henryk", "Sienkiewicz"));
+        bookstoreService.books.put(book2, 3);
+        Book book3 = new Book(15, "W pustyni i w puszczy", new BookAuthor("Henryk", "Sienkiewicz"));
+        bookstoreService.books.put(book3, 1);
+        Book book4 = new Book(18, "Ogniem i mieczem", new BookAuthor("Henryk", "Sienkiewicz"));
+        bookstoreService.books.put(book4, 8);
+
+        String title = "Lalka";
+
+        //When:
+        Map result = bookstoreService.searchByTitle(title);
+
+        //Then:
+        Assert.assertEquals(0, result.size());
+    }
+
+    @Test
+    public void shouldReturnEmptyMapWhenTitleEqualsNull() {
+        //Given:
+        Book book1 = new Book("Wiedźmin", new BookAuthor("Andrzej", "Sapkowski"));
+        bookstoreService.books.put(book1, 2);
+        Book book2 = new Book(15.05, "Ogniem i mieczem", new BookAuthor("Henryk", "Sienkiewicz"));
+        bookstoreService.books.put(book2, 3);
+        Book book3 = new Book(15, "W pustyni i w puszczy", new BookAuthor("Henryk", "Sienkiewicz"));
+        bookstoreService.books.put(book3, 1);
+        Book book4 = new Book(18, "Ogniem i mieczem", new BookAuthor("Henryk", "Sienkiewicz"));
+        bookstoreService.books.put(book4, 8);
+
+        String title = null;
+
+        //When:
+        Map result = bookstoreService.searchByTitle(title);
+
+        //Then:
+        Assert.assertEquals(0, result.size());
     }
 }
