@@ -16,6 +16,7 @@ public class Bookstore {
             System.out.println("[1] Add book");
             System.out.println("[2] Remove book");
             System.out.println("[3] Search book by title");
+            System.out.println("[4] Search books by author");
             System.out.println("[x] End program");
             System.out.println();
             usersChoice = getUserInput();
@@ -25,6 +26,8 @@ public class Bookstore {
                 removeBook();
             } else if (usersChoice.equals("3")) {
                 searchByTitle();
+            } else if (usersChoice.equals("4")) {
+                searchByAuthor();
             }
         }
     }
@@ -92,6 +95,24 @@ public class Bookstore {
         Map<Book, Integer> searchingResult = bookstoreService.searchByTitle(title);
 
         System.out.println("There are " + searchingResult.size() + " book in store with title: " + title);
+
+        searchingResult.forEach((book, value) -> System.out.println(book + " number in stock: " + value));
+    }
+
+    private static void searchByAuthor() {
+        System.out.println();
+        System.out.println("#### SEARCH BOOKS BY AUTHOR ####");
+        System.out.println();
+        System.out.print("Give name of author: ");
+        String name = getUserInput();
+        System.out.print("Give surname of author: ");
+        String surname = getUserInput();
+        System.out.println();
+
+        BookAuthor bookAuthor = new BookAuthor(name, surname);
+        Map<Book, Integer> searchingResult = bookstoreService.searchByAuthor(bookAuthor);
+
+        System.out.println("There are " + searchingResult.size() + " book in store with author: " + bookAuthor);
 
         searchingResult.forEach((book, value) -> System.out.println(book + " number in stock: " + value));
     }

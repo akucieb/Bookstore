@@ -43,6 +43,11 @@ public class BookstoreService {
         return books.entrySet().stream().filter(map -> map.getKey().getTitle().equals(title)).collect(Collectors.toMap(b -> b.getKey(), b -> b.getValue()));
     }
 
+    public Map<Book, Integer> searchByAuthor(BookAuthor bookAuthor) {
+
+        return books.entrySet().stream().filter(map -> map.getKey().getBookAuthor().equals(bookAuthor)).collect(Collectors.toMap(b -> b.getKey(), b -> b.getValue()));
+    }
+
     private boolean isBookAlreadyInStock(Book book) {
         return books.containsKey(book);
     }
