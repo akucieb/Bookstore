@@ -42,10 +42,7 @@ public class Book {
 
     @Override
     public int hashCode() {
-        if (price == 0)
-            return Objects.hash(title, bookAuthor);
-        else
-            return Objects.hash(title, bookAuthor, price);
+        return Objects.hash(title.toLowerCase(), bookAuthor, price);
     }
 
     @Override
