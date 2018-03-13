@@ -1,5 +1,6 @@
 package com.akucieb.book;
 
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -21,16 +22,22 @@ public class Bookstore {
             System.out.println("[x] End program");
             System.out.println();
             usersChoice = getUserInput();
-            if (usersChoice.equals("1")) {
-                addBook();
-            } else if (usersChoice.equals("2")) {
-                removeBook();
-            } else if (usersChoice.equals("3")) {
-                searchByTitle();
-            } else if (usersChoice.equals("4")) {
-                searchByAuthor();
-            } else if (usersChoice.equals("5")) {
-                searchRunningOutBooks();
+            switch (usersChoice) {
+                case "1":
+                    addBook();
+                    break;
+                case "2":
+                    removeBook();
+                    break;
+                case "3":
+                    searchByTitle();
+                    break;
+                case "4":
+                    searchByAuthor();
+                    break;
+                case "5":
+                    searchRunningOutBooks();
+                    break;
             }
         }
     }
@@ -49,13 +56,23 @@ public class Bookstore {
         String authorName = getUserInput();
         System.out.print("Give author surname: ");
         String authorSurname = getUserInput();
-        System.out.println("Add book price? Y/N");
 
         double price;
-        if (getUserInput().equalsIgnoreCase("y")) {
-            System.out.print("Give book price: ");
-            price = nextDouble(sc);
-        } else price = 0;
+        while (true) {
+            System.out.println("Add book price? Y/N");
+            String userInput = getUserInput();
+            if (userInput.equalsIgnoreCase("y")) {
+                System.out.print("Give book price: ");
+                price = nextDouble(sc);
+                break;
+            } else if (userInput.equalsIgnoreCase("n")) {
+                price = 0;
+                break;
+            } else {
+                System.out.println();
+                System.out.println("Incorrect input. Try one more time");
+            }
+        }
 
         BookAuthor author = new BookAuthor(authorName, authorSurname);
         Book book = new Book(price, title, author);
@@ -78,12 +95,14 @@ public class Bookstore {
         String authorSurname = getUserInput();
         System.out.println("Give book price");
         double price = nextDouble(sc);
-
-        bookstoreService.removeBook(new Book(price, title, new BookAuthor(authorName, authorSurname)));
-
-        System.out.println();
-
-        System.out.println("Book has been removed");
+        try {
+            bookstoreService.removeBook(new Book(price, title, new BookAuthor(authorName, authorSurname)));
+            System.out.println();
+            System.out.println("Book has been removed");
+        } catch (NullPointerException e) {
+            System.out.println();
+            System.out.println(e.getMessage());
+        }
     }
 
 
@@ -133,10 +152,16 @@ public class Bookstore {
 
     private static double nextDouble(Scanner sc) {
         double value = 0;
-        if (sc.hasNextDouble()) {
-            value = sc.nextDouble();
+        while (value == 0) {
+            try {
+                value = sc.nextDouble();
+            } catch (InputMismatchException e) {
+                System.out.println();
+                System.out.println("Illegal argument. Try one more time");
+            } finally {
+                sc.nextLine();
+            }
         }
-        sc.nextLine();
         return value;
     }
 }
