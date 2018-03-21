@@ -9,11 +9,11 @@ public class BookEqualsTest {
     @BeforeClass
     public static void setUp() {
         BookAuthor bookAuthor = new BookAuthor("Jan", "Kowalski");
-        String title = "Ogniem i mieczem";
+        String title = " Ogniem i mieczem  ";
         double price = 0;
         Book book = new Book(price, title, bookAuthor);
         Book bookEqual = new Book(title.toUpperCase(), bookAuthor);
-        Book bookSecondEqual = new Book(price, title, bookAuthor);
+        Book bookSecondEqual = new Book(price, "Ogniem i mieczem", bookAuthor);
         Book bookNotEqual = new Book(0, "", new BookAuthor("", ""));
         equalsTester = new EqualsTester(book, bookEqual, bookSecondEqual, bookNotEqual);
     }

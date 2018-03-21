@@ -8,7 +8,7 @@ public class BookAuthorEqualsTest {
 
     @BeforeClass
     public static void setUp() {
-        BookAuthor bookAuthor = new BookAuthor("Jan", "Kowalski");
+        BookAuthor bookAuthor = new BookAuthor("Jan   ", "Kowalski ");
         BookAuthor bookAuthorEquals = new BookAuthor("jAn", "koWalski");
         BookAuthor bookAuthorSecondEqual = new BookAuthor("Jan", "Kowalski");
         BookAuthor bookAuthorNotEqual = new BookAuthor("", "");

@@ -9,13 +9,12 @@ public class Book {
 
     public Book(double price, String title, BookAuthor bookAuthor) {
         this.price = price;
-        this.title = title;
+        this.title = title.trim();
         this.bookAuthor = bookAuthor;
     }
 
     public Book(String title, BookAuthor bookAuthor) {
-        this.title = title;
-        this.bookAuthor = bookAuthor;
+        this(0, title, bookAuthor);
     }
 
     public double getPrice() {
@@ -36,8 +35,8 @@ public class Book {
         if (obj == null || obj.getClass() != this.getClass()) return false;
 
         Book book = (Book) obj;
-        return (title == book.title || (title != null && title.equalsIgnoreCase(book.title))) &&
-                (bookAuthor == book.bookAuthor || (bookAuthor != null && bookAuthor.equals(book.bookAuthor)));
+        return (title != null && title.equalsIgnoreCase(book.title)) &&
+                (bookAuthor != null && bookAuthor.equals(book.bookAuthor));
     }
 
     @Override

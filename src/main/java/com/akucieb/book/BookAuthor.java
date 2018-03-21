@@ -7,8 +7,8 @@ public class BookAuthor {
     private String surname;
 
     public BookAuthor(String name, String surname) {
-        this.name = name;
-        this.surname = surname;
+        this.name = name.trim();
+        this.surname = surname.trim();
     }
 
     public String getName() {
@@ -28,8 +28,8 @@ public class BookAuthor {
         }
 
         BookAuthor bookAuthor = (BookAuthor) obj;
-        return (name == bookAuthor.name || (name != null && name.equalsIgnoreCase(bookAuthor.name))) &&
-                (surname == bookAuthor.surname || (surname != null && surname.equalsIgnoreCase(bookAuthor.surname)));
+        return (name != null && name.equalsIgnoreCase(bookAuthor.name)) &&
+                (surname != null && surname.equalsIgnoreCase(bookAuthor.surname));
     }
 
     @Override
